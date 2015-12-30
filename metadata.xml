@@ -8,8 +8,5 @@
 		opf:role="aut">Michael S. Mahoney</dc:creator>
     <dc:language>en</dc:language>
 
-    <dc:rights>FIXME</dc:rights>
-    <dc:publisher>Alexander Gromnitsky</dc:publisher>
-
   </metadata>
 </package>

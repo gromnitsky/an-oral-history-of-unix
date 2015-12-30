@@ -69,8 +69,6 @@ book.epub: book.zip $(src)/style.epub.css
 		--level1-toc '//*[@class="title"]' \
 		--disable-font-rescaling \
 		--epub-inline-toc \
-		--use-auto-toc \
-		--no-default-epub-cover \
 		--no-svg-cover \
 		--minimum-line-height 0 \
 		--breadth-first \
