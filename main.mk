@@ -7,9 +7,6 @@ help:
 
 define help =
 compile		produce html, epub, pdf
-html			$(html.out)
-epub			$(epub.put)
-pdf			$(pdf.out)
 endef
 
 .DELETE_ON_ERROR:
@@ -53,6 +50,8 @@ html: $(html.dest)
 
 # ebook
 
+PAPER := a4
+
 toc.html: $(html.dest) $(src)/metadata.xml
 	$(src)/toc -m $(src)/metadata.xml $(html.dest) > $@
 
@@ -77,3 +76,20 @@ book.epub: book.zip $(src)/style.epub.css
 		--breadth-first \
 		--extra-css $(src)/style.epub.css \
 		-m $(src)/metadata.xml
+
+book.mobi: book.epub
+	ebook-convert $< $@
+
+book.pdf: book.epub
+	ebook-convert $< $@ \
+		--pdf-add-toc \
+		--pdf-footer-template '<div style="margin-top: 2em; text-align:center;"><b>_PAGENUM_</b></div>' \
+		--preserve-cover-aspect-ratio \
+		--margin-bottom 70 \
+		--margin-left 50 \
+		--margin-right 50 \
+		--margin-top 70 \
+		--paper-size $(PAPER)
+
+.PHONY: compile
+compile: book.mobi book.pdf
