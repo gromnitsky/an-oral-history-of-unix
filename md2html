@@ -20,7 +20,9 @@ let date_parse = function(input) {
 
 let date2html = function(input) {
     let date = date_parse(input)
-    return date ? `<p><time datetime='${date.format("YYYY-MM-DD")}'>${date.format("dddd, MMMM Do YYYY")}</time></p>\n\n` : "<p><i>Date unknown</i></p>\n\n"
+    return "<p class='my-time'>" +
+	(date ? `<time datetime='${date.format("YYYY-MM-DD")}'>${date.format("dddd, MMMM Do YYYY")}</time></p>\n\n` : "<i>Date unknown</i>") +
+	"</p>\n\n"
 }
 
 let md2html = function(input, meta) {
