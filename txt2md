@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+'use strict';
+
+let fs = require('fs')
+
+let txt2md = function(input, names) {
+    let header = true
+    let names_re = new RegExp(`^ *(${names.join('|')}): `, 'gi')
+    input = input.split("\n").map( (line) => {
+	if (header && !line.match(/^\s*$/)) {
+	    header = false
+	    return `# ${line}`
+	}
+
+	return line.replace(names_re, "<b>$1</b>: ")
+    }).join("\n")
+
+    return input
+}
+
+let names = process.argv.slice(2)
+if (names.length === 0) {
+    console.error("Usage: txt2md MSM Thompson < thompson.txt")
+    process.exit(1)
+}
+
+let src = fs.readFileSync('/dev/stdin').toString()
+process.stdout.write(txt2md(src, names))

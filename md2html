@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+
+'use strict';
+
+let fs = require('fs')
+let path = require('path')
+
+let marked = require('marked')
+let moment = require('moment')
+let Mustache = require('mustache')
+
+let title_parse = function(input) {
+    return input.match(/(.+), *(\d+-\d+-\d{2}) *$/) // m-dd-yy
+}
+
+let date_parse = function(input) {
+    let raw = title_parse(input)
+    return raw ? moment(raw[2], "MM-DD-YY") : null
+}
+
+let date2html = function(input) {
+    let date = date_parse(input)
+    return date ? `<p><time datetime='${date.format("YYYY-MM-DD")}'>${date.format("dddd, MMMM Do YYYY")}</time></p>\n\n` : "<p><i>Date unknown</i></p>\n\n"
+}
+
+let md2html = function(input, meta) {
+    let renderer = new marked.Renderer()
+
+    renderer.heading = function (text, level, raw) {
+	let date = ''
+	let klass = ''
+	if (level === 1) {
+	    klass = " class='title'"
+	    date = date2html(text)
+	    let title = title_parse(text)
+	    if (title) text = title[1]
+	    meta.title = text
+	}
+	return `<h${level}${klass}>${text}</h${level}>\n\n${date}`
+    }
+
+    return marked(input, { renderer: renderer })
+}
+
+
+let template = function() {
+    return fs.readFileSync(path.join(__dirname, "template.html")).toString()
+}
+
+
+let src = fs.readFileSync('/dev/stdin').toString()
+let meta = {}
+let body = md2html(src, meta)
+let html = Mustache.render(template(), {
+    title: meta.title,
+    body: body
+})
+process.stdout.write(html)

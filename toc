@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+require 'erb'
+require 'optparse'
+require 'time'
+
+require 'nokogiri'
+
+def parse_meta xml
+  doc = Nokogiri::XML xml
+  doc.remove_namespaces!
+  {
+    title: doc.xpath('//title').text,
+    author: doc.xpath('//creator').text,
+  }
+end
+
+$conf = {
+  meta: {},
+}
+
+op = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} -m metadata.xml file1.html file2.html"
+  opts.on("-m FILE", " metadata") { |val| $conf[:meta] = parse_meta (File.read val) }
+end
+op.parse!
+
+raise op.banner if ARGV.length == 0
+
+__dirname = __dir__
+files = (Dir.glob(File.join __dirname, "pages", "*.html")
+          .map {|i| File.basename i} + ARGV).sort
+
+template = <<END
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head></head>
+
+  <body>
+    <h1><%= $conf[:meta][:title] %></h1>
+    <hr />
+
+    <div class="my-subtitle"><%= $conf[:meta][:author] %></div>
+    <br /><br /><br />
+    <div class="my-subtitle">
+      DRAFT<br />
+      <%= Time.now.utc.iso8601 %>
+    </div>
+    <div style="display:none">
+<% files.sort.each do |file| -%>
+      <a href="<%= file %>"><%= file %></a>
+<% end -%>
+    </div>
+
+  </body>
+</html>
+END
+
+puts (ERB.new template, nil, '-').result binding

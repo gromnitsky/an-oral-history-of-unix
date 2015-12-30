@@ -1,0 +1,28 @@
+#footer {
+    position: fixed;
+    bottom: 3em;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+p {
+    margin: 0;
+    text-indent: 0.5em;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: black;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+.my-subtitle {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}

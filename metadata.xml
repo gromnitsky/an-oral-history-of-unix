@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf"
+	 unique-identifier="uuid_id" version="2.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+    <dc:title>An Oral History of Unix</dc:title>
+    <dc:creator opf:file-as="Mahoney, Michael"
+		opf:role="aut">Michael S. Mahoney</dc:creator>
+    <dc:language>en</dc:language>
+
+    <dc:rights>FIXME</dc:rights>
+    <dc:publisher>Alexander Gromnitsky</dc:publisher>
+
+  </metadata>
+</package>
