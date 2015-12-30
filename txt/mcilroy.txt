@@ -1,0 +1,1050 @@
+
+M.D. McIlroy
+
+MSM:   I was looking over some of the literature and one of the things that
+        struck me as I was looking back at Ritchie's retrospective and other
+        retrospectives of it, are the circumstances under which it got
+        started.  I gather that the name UNIX came from Brian and it came in
+        '70 and it was a play on MULTICS.  And the more I read the
+        literature the more MULTICS looms behind UNIX, both positively and
+        negatively.  What was the relationship there?
+
+
+McIlroy:  Ritchie, Thompson and Osanna, and Peter Neumann, and I were all
+        in on the MULTICS project from the time Bell Labs joined.  Ed David,
+        who was Executive Director of (ocean? --not clear) sciences, I guess
+        it's called.  And Later on went to be Nixon's science advisor.
+
+MSM:   Go ahead.
+
+McIlroy:  Was really pushing for this MULTICS project but (it was) the
+dream of the computer utility that just grabbed him.  And he alerted
+people to join in and meet with MIT and start laying plans and early
+people doing that where including Masowski.  Osanna and Neumann were
+particularly turned in on the project and devoted time to it.  I
+would say the rest of us were in on the project and dove in with a
+will and did a lot of design work.
+
+But, perhaps were not quite as confirm believers that this was the
+wave of  the future.  Nevertheless, we devoted an awful lot of time
+to it.  When MULTICS began to work, the very first place it worked
+was here.  We had our GE 645 machine.  MIT, had one too.  But, they
+were doing their development on another machine, carrying tapes
+across and just taking measurements, making tests on the MULTICS
+machine.  As soon as we got a tape, we tried to run it as a
+computing home.  Thompson, so in the day, we would have a MULTICS
+machine running.  Fitfully.  It was amazing how three people could
+absolutely overload this giant room full of equipment.  And that was
+because MULTICS actually changed the way people worked.  The MULTICS
+user was not the same as a user of previous time sharing systems.
+
+And the principle reason was that he could do multiple things at a
+time and that he could be typing ahead of where he was working.
+Previous ones had been strictly half duplex.   You typed for awhile
+and then you waited for the computer to respond.   MULTICS went full
+duplex.  It was amazing how this one tiny little change, absolutely
+permeated the way you use the system.  And that and the fact that
+you could very easily set things going in the background.  So, any
+one user could start several things going, and when the machine was
+slow, that's exactly what you would do.  Your mind would be racing
+way ahead of the machine.  And that just brought it down even worse.
+
+So, MULTICS was clearly... once it was running was not the boon, that
+was going immediately solve our need for computing cycles.  Three
+people could bring it down.  Also there developed a wonderful
+Multics system programmers manual.  An eight foot shelf or
+something.  I don't recall how long it was.  Nobody here had a
+complete copy.  Volume after volume of design documents.  Very
+daunting.   Thompson and Ritchie and Rudd Canday, who was an intern
+in my department for a year, were talking about, well, how could we
+do this in a less massive way?  And, there were many afternoons
+spent across the hall there.  Working at the blackboard.  Working
+out the design of the MULTICS file system.  I'm sorry, the UNIX
+file, what became the UNIX file system.  If we were to make a file
+system, what would it look like?
+
+MSM:   Let me interrupt you for a second?  What is it.  Was it the file
+        system that made that MULTICS so big and daunting?
+
+McIlroy:  It was the...  The real reason for the...    one already knew why
+        time sharing was such a boon.  It wasn't that it allowed many people
+        to share the cycles in the machine.  It was, that it allowed many
+        people to work in the same huge pot of data and it was this synergy
+        of sharing data, to be able to quickly look at other people's files,
+        pass messages around and so on, that was the best thing that time
+        sharing had to offer.  The other was merely a economic advantage,
+        but the one of sharing was a qualitatively different way of using
+        the machines.  So, the file system was the heart of the matter.  And
+
+MSM:   Oh, so it was the idea of sharing?
+
+McIlroy:  Yes.
+
+MSM:   And, making it easy to share?
+
+McIlroy:  Yes. And make it easy to find; to store away and retrieve
+        information.  The UNIX system owes much to the MULTICS file system,
+        most notably the directory tree ID.
+
+MSM:   How many of these design features of MULTICS, had sprung from you
+        people in the first place?   Or did you ...?
+
+McIlroy:  The basic concepts of MULTICS really come from MIT.  We joined
+the project after they got started.  And it was going to be the
+follow on to their CTSS and talked about it for a long time.  One
+significant design thing for MULTICS came from Vyssotsky.  MULTICS
+had these two ideas; the file system, and the segmented address
+space for processes.  And they were separate.  You would do IO from
+files into the address space.  Vyssotsky said, "Why don't ..., why are
+not files exactly the same as segments?  And there is no...; an IO
+disappears.  Well in fact FORTRAN programs still have read and
+write.  But, when you open a file, all you're doing is putting a
+segment in your address space.  MULTICS really worked that way.
+
+And our later systems have backed off from that wonderful unifying
+idea.  There was, in the working out of the idea, there was a great
+deal of overhead.  The other big thing of MULTICS was the idea of
+dynamic linking.  And what that imposed upon the rest of the
+architecture, was, I'm sorry,  I should say dynamic linking and the
+so called ring structure for memory protection.  The various layers
+of access permissions. All the collection of those things together,
+the hardware was conceived to support those, but it was our first
+cut.  The collection of them together turned out to be take a great
+deal of implementation to make them work.  One of the surprises late
+in the project was....  So you got automatic... (back up).  The way
+the shell worked.  When  you invoked a program, what it did was
+simply link the program into your address space and run it right
+there.  Suppose you recompile the program.  It's already in your
+address space and you run it again, and you run the old one.
+
+And, how to undo.  There is lots design effort that went into the
+binder.  Then.  Then nobody thought about unbinding, which turned
+out to be something that had to be put in later on.  And unbinding
+turned out to be quite a big monster.  Especially, to have unbinding
+occur in any...  people really didn't like this idea.  So, I rewrote
+the program and I got the old one and you would like that to happen.
+ You get the latest version automatically.  It took a great deal of
+implementation.  This kind of thing, mushroomed and the system got
+huge.
+
+MSM:   What did MIT look to get from Bell Labs in that project?  ... what was
+        your role?
+
+McIlroy:  Why was Bell Labs part of it?
+
+MSM:   What were the expectations in both directions?
+
+McIlroy:  MIT had the basic vision of the computer utility, in those words.
+And Bell Labs certainly was a window into getting that out of the
+academic world.  I suspect that would be the principle motivation
+for having Bell Labs in.  Of course Bell Labs too, had a good
+reputation for having built interesting operating systems for many
+years.  When, for example, IBM came out with a 709/7090, which had
+data channels.  We.  It was in the market for well over a year,
+before we got one.  Probably a couple of years.  But, we built our
+own operating system for it.  Similar to the one we'd built for the 704.
+We used the data channels and it did asynchronous I/O. None of
+the software that came from IBM used the data channels any way...
+
+Although the hardware was there, but it didn't exploit the software.
+So, we were in there exploiting the hardware and the data channels
+interrupts all that.  First, when the disk drives were announced as
+a product.  Lots of people put them on.  But, we were the first
+people to put them into a file system where you could leave your
+files.  So, Bell Labs did have plenty of background in creation of
+operating systems.
+
+MSM:   Where you part of that?
+
+McIlroy:  Yes. I was not part of the 704 operating system, which was built
+        before I came to work here.  But, the 7090 operating system, was I
+        certainly was.  Although the two principal players were, Ron
+        Drummond and Gwenn Hanson.
+
+
+MSM:   So, what you joined was a continuing tradition of building your own
+        operating systems?
+
+
+McIlroy:   ...of building our own operating systems, absolutely.  And this
+        was...  everybody agreed that operating systems could do multiple
+        things at a time, were the next step and MULTICS was let's hope in
+        that direction.  It was multiple in every sense.  As its name
+        indicated.
+
+MSM:   And the Labs hoped to get a share on that?
+
+McIlroy:  Well, the Labs was looking for...  to move to a new generation of
+equipment and a new way of using it, and here was a way.  It looked
+like that might be a very big undertaking, because operating
+systems, although they had been built by two people here,  back in
+1968 uh '58.  You found more and more people when you looked outside
+at the ones that were built around '64 and you find that there were
+fifty people building them.  Maybe too much to be doing in the
+corner of the math department.
+
+Of course, what UNIX showed after that ,was that two people could
+still build a operating system if they had the right model.  So, we
+had MULTICS in the background.  Ken Thompson, very  quietly, in the
+wee hours, would take the machine when nobody was on.  Would take
+the machine down, was building his own operating system, for the
+giant 645, starting from scratch.  He got to the point,  where
+actually he came up to the console and said log-in or something like
+that.  I do not know, what the architecture of that operating system
+was.
+
+MSM:   He was just doing it to explore operating systems?
+
+McIlroy:  Yes.  He felt he could do it with far less fuss and bother than
+        the megabytes that had been written for MULTICS.
+
+MSM:   So, you really were disappointed as a group in the way MULTICS
+        ended?
+
+McIlroy:  I think that's true in most of us.  Yeah.
+
+MSM:   And so it just petered out?
+
+
+McIlroy:  No.  We were still working.  But, (pause) the computer centers
+        had been put up the money for the machine.  The computer centers by
+        now were, separate from research...  that happened some time during
+        the MULTICS projects.  The computer centers, hoping to get something
+        out it, and with big budgets research had never had computers of
+        their own.  Computers always belonged to the Computing Center, which
+        once belonged to research.  The computer centers move away, research
+        is left as clients.  Only no hardware and no capital budget.  Well,
+        the computer center began to see that this was not going to provide
+        the cycles that they were going to need in the next couple of years.
+
+MSM:   No. I see three people can bring it down.  This is not the answer to
+        their needs.
+
+McIlroy:  They needed computing cycles.  They were selling them.  They had
+this million dollars worth of equipment up in the attic, that was
+sitting there being played with by three folks and the day that it
+was going to make into the comp center.  We did have some fairly
+interesting assessments of what it could do.  I think, I still have
+those up on the shelf.  Where various people predicted when MULTICS
+might become useful and how useful it would be.  You'll find
+positive and negative things written about it.  I could get that
+kind of stuff out for you if you're interested.  It's MULTICS, its
+not UNIX.
+
+So, it became clear that we were a drag on the computer center's
+budget.  We were not going to pull them out of their hole.  You
+know, in the near future.  They were going to have start buying
+hardware and go with whatever was in the market at the time for
+operating systems.  And the project was, it was a clean sharp
+decision made to get out.  The project did not wind down, it just
+stopped.
+
+MSM:   When was that?
+
+McIlroy:  It was in 1969.  I forget what month, and the astonishing thing
+        is that we had a visit from the President, Bill Baker himself.  To
+        tell us about the turning off of the project. And he poured
+        wonderful vacarian oil upon the waters.
+
+MSM:   I've seen him in charming action (Laughing)
+
+McIlroy:  As we still often proposed, in Vietnam, he declared a victory and
+        retreated.  (Laughing)  The research value of MULTICS was declared
+        to have been...  the research potential of the MULTICS project was
+        declared to have been exhausted.  So, we would get out of it as a
+        research project.
+
+MSM:   I gather it was about the same time the research group got split
+        into two halves, mathematicians and computer research?
+
+McIlroy:  That had happened about '67 or so.
+
+MSM:   Had that split come simply because things were getting too big?
+
+McIlroy:  Yeah.  I think so.  There were two degrees of split.  First split
+        was, computer research left math and kept the comp center.  And
+        fairly shortly thereafter, the comp center left research entirely
+        and went over to a more operational department.
+
+MSM:   You were computing research, but you didn't have any computers?
+
+McIlroy:  That's correct.  Visual and acoustics research had computers and
+        they had them for some time.  They were really, they wanted to
+        listen to signals in real time and make digital filters.  Simulate
+        digital filters and stuff like this, and they could eat up all
+        cycles of a machine.  So, they started getting little, they were the
+         pioneers of minicomputers at Bell Labs.  They had some that were
+        stuck on the side of our 7090.  The Packard Bell 250 was the first
+        one they had.  This guy could reach in and grab cycles off the 90,
+        or run a collection of interesting acoustic gear on the side.
+        Gather digitized tapes which would then be moved immediately to the
+        90 and processed.  Perhaps, that was the first workstation, I think
+        the Rand Corporation had some more or less at the same time frame,
+        the early sixties.  As more minicomputers became available, visual
+        and acoustics research kept getting them.  Now, we would look at
+        their...  there was interesting observation back and forth. They had
+        nice hardware, and we would look how inefficiently they were using
+        their cycles.  You know, do a little improvement in your software
+        and you wouldn't have to have all these machines.  They broke the
+        ice for minicomputers.  And, because they really didn't like making
+        software, instead when things got tough, they would just buy another
+        machine.  And if things got a little faster, the machines got a
+        little faster, they would just throw out the old one and that was
+        the origin of the PDP7,  which ...
+
+MSM:   Where is this famous PDP7?  Does it still exist?
+
+McIlroy:  Long gone.  That was a graphics engine, put together by Bill
+        Nidke and Ed McDonald, Ed Setarp and some others.  It was a graphics
+        engine with a really very nice display on it.  A display with a
+        program display list, so that you could have graphics subroutines...
+        and it was more, it had been displaced by an improved graphics
+        engine, which was sitting idle and that's what Thompson grabbed on
+        and built, finally built...  fairly soon after the UNIX shut off, and
+        I think he was happier doing that than he was, trying to make the
+        GE645 do its thing.
+
+MSM:   Now, you people must have been in something of a bind?  When you
+        were a computer research group.  You haven't got computers.  Were
+        you looking around for a mission?  Did you have a mission?
+
+McIlroy:  Oh. We had, we still could work on the...  We had always been
+        associated with the comp center.  We still had good times with the
+        comp center.  If we produced interesting compilers the comp center
+        would install them. So, we had the computing cycles down there in
+        principle.  But, they were not at your fingertips, the way  we got
+        used to after having CTSS at MIT available to us for some years.
+        From '66 on, we were connected to CTSS from here.  This little
+        machine came up and Thompson brought up his operating system, and
+        Ritchie joined in, and I saw that it was a neat thing and I was the
+        department head, so I muscled in, and they turned it from a one user
+        to a two user system.
+
+MSM:   What were you doing at the time when this caught your interest?
+
+McIlroy:  Well, I had been the languages person for MULTICS.  Bob Morris
+        and I wrote the PL/1 compiler, and MULTICS was all written in PL/1.
+        That came about, because I was on the IBM share PL/1 committee.  So,
+        I had.  We were looking for higher level language to program MULTICS
+        in.  This was not a first.  Boroughs had programmed the B5000 in
+        some dialect Algol.  But, that pretty well.  That wasn't good enough
+        for.  It really wasn't too well suited to nit picking algorithms
+        that go into a operating system.  The PL/1 had everything you
+        needed, and a lot more.
+
+MSM:   Did you like PL/1?
+
+McIlroy:  The answer is, not very much.  Even I helped design it.  It was a
+        neat idea to put everything that was known about programming
+        languages into one pot.  (Laughing)  Almost everything.  But, they
+        didn't melt together very well.  And I have only written one PL/1
+        program, in my life, after having designed it and built a compiler
+        for it.  Which says something about the language.  The compiler was
+        built in TMG compiler writing system, that I had taken over from Bob
+        McClure of Texas Instruments, and then improved a good bit.  The two
+        of us built a very large portion of PL/1.  We left out all the I/O,
+         which turns out to be half, if you look at the grammar of PL/1,
+        half of the grammar is about I/O, so that really cut off a lot. We
+        left out the I/O.  We left out parallel processing, and we left out
+        almost nothing else, including some very elaborate data structure
+        handling.  Self describing structures and so on, which IBM didn't
+        have in their first release.  Uh, compiler.  The compiler, the two
+        of us built in about a year and it was used for several years before
+        finally being replace with a real one.  This compiler had two
+        diagnostics.  The syntax error and the other was
+        redeclaration. (Laughing)
+
+MSM:   Sounds like BASIC. (Laughing)
+
+McIlroy:  But, to build the compiler, we had this TMG compiler writing
+        system and that one being a huge language, stretched into its limit
+        and we kept, every once in awhile we'd fill up all of the memory and
+        now there were two choices.  You would work on the compiler.  Or,
+        you would work on the compiler compiler.  And we had both at our
+        disposal.  Went back and forth, squeezing out one or the other and
+        out of this,  I got an idea of how TMG really ought to work and
+        that's what I did on the PDP-7.  The first thing I brought up was
+        from absolute scratch. We had an assembler only.  I brought up a
+        compiler writer, a compiler compiler.  Written in its own language.
+        Bootstrapped it up.
+
+MSM:   Now, is that TMG or did you do that in B?
+
+McIlroy:  It was TMG.  TMG was a gun in itself.   There was no B. There was
+        no C.  There was an assembler.
+
+MSM:   One of the sources talks about roff having come from run off.
+
+McIlroy:  Yes.
+
+MSM:   Which you did for MULTICS?
+
+McIlroy:  No, roff was done by Jerry Salzer and MULTICS, he invented it.
+        I'm sorry for CTSS.
+
+
+MSM:   And you got up roff here?
+
+
+McIlroy:  I wrote roff for MULTICS, yes that's true.  That's correct.  And
+        I wrote that in BPCL.
+
+MSM:   You got BPCL?
+
+McIlroy:  Dennis Ritchie had brought BPCL up on our machines.
+
+MSM:   He brought that in?
+
+McIlroy:  Mm. Hm.  (yes)
+
+MSM:   Was B ever used in MULTICS?
+
+McIlroy:  No.
+
+MSM:   So, that history of BCPL, to B to C, is it all here?
+
+McIlroy:  All here.
+
+McIlroy:  And TMG fed into that too.  Some of things like the two address
+        assignment operators were in TMG here first and then were adopted by
+        B, and by C.  I can't say I invented them because they were also on
+        Algol68 at the same time.  B is where the unusual declaration syntax
+        of C came from.  That was Ken's invention, that the declaration
+        should look like...  should have the same syntax as an expression.
+
+MSM:   Since we're on C.  One of the...  I'll ask Dennis this when I get to
+        it, but one of the features is, that struck me about C was when I
+        was writing a LISP interpreter form, in it.  This property of C, of
+        always...   of any statement bringing back a value, in the type, so
+        that all operators have values and so I found that at a certain
+        point my core C list was beginning to look like LISP expressions and
+        at a certain point it just seemed automatic to go over to a LISP
+        library.  Because, I was just stacking parenthesis in C.  Where did
+        that come from?  Is that part of B?  Or...   the notion that all
+        operators have values?
+
+McIlroy:  Yeah.  It was also in Algol68.  In BCPL, which came out of CPL,
+        they had the very, very strong distinction between notions and
+        commands.  An assignment was a command.  So, they did not have...  I
+        do not think the assignment was an operator in the expression.  But,
+        it was a Algol68.  So, that was in...   So that happened sort of
+        everywhere at the same time.  In fact, the first place I saw it was
+        McClure's proposal called Linear C, which was way before the
+        language C.   Just liked it because it sounded nice.  Like after
+        Linear A and Linear B.
+
+
+MSM:   Oh I see, I see
+
+
+McIlroy:  It was an obscure looking language and it was linear, because you
+        wrote tremendous long expressions.
+
+
+MSM:   Must have placed you on the borderline between a procedural and
+        functional list?
+
+
+McIlroy:  Yes. It did.  In roughly speaking what it had was a break in the
+        continue statement.  Continue simply went back to the last
+        parenthesis, and Break simply jumped over to the next one, and those
+        were the major contributors, plus an IF of course, those were the
+        major controls in a language.  So, there wasn't an actual key word
+        FOR.  Just the fact that you said Continue, meant you would jump
+        back.
+
+MSM:   Let's jump ahead for a second.
+
+McIlroy:  Yeah.
+
+[some chat about whether the machine is recording, red light, etc.]
+
+MSM:   I was talking to my daughter,  who's a computer science/music major
+        at Harvard, before I came up here.   She said, "What's the name of
+        this project?"  Well, it's the oral history of UNIX.  She said,
+        "That's not particularly jazzy." (Laughing)  "Can't you think of a
+        jazzier name?" and she said, "Who are you going to talk to?"  and I
+        said, "Doug McIlroy."  And she said, "Well, what did he do?"  I
+        said, "Well, he had something to do with pipes."  She said, "Why
+        don't you call it Pipe Dream?"
+
+MSM:   I do want to talk about pipes, because Ritchie says in his
+        retrospective that, not only was it your suggestion, but indeed, he
+        suggests, at your insistence.
+
+McIlroy:  That is one of the only places where, I very nearly exerted
+        managerial control over UNIX, in pushing for those things.  Yes.
+
+MSM:   Why pipes?
+
+McIlroy:  Why pipes?
+
+MSM:   Where did the idea come from?
+
+McIlroy:  Goes way back.  There was...   in the early sixties,  Conway wrote
+an article about Co-routines.  Sixty-three, perhaps in the CACA,  I
+had been doing macros, starting back in '59 or '60.   And if you
+think about macros, they mainly involve switching data streams.
+You're taking in your input, you suddenly come to a macro call, and
+that says, stop taking input from here, go take it from the
+definition.  In the middle of the definition, you'll find another
+macro call.  So, macros...  even as early as '64...   Somewhere I talked
+of a macro processor as a switchyard for data streams.  Also, in
+'64, there's a paper that's hanging on Brian's wall, still.  He
+dredged out somewhere, where I talked about screwing together
+streams like garden hoses.
+
+So, this idea had been ironed on in my head for a long time.  On
+MULTICS, Joe Osanna, who was actually beginning to build a way to do
+input-output plumbing.  Input-output was in interpreted over this
+idea of the segmented address space in the file system, really...
+files were really just segments of the same old address space.
+Nevertheless, you had to do I/O, because all the programming
+languages did it.   And he was making ways of connecting programs
+together.  They were fairly kludges and no one really exploited
+them, because you had to explicitly say connect this to that, and
+that to that.  Nothing so nice as to piping operator in the shell
+appeared.   And, at the same time that Thompson and Ritchie were, on
+their blackboard, sketching out their file system.  I was sketching
+out on how to do data processing on this blackboard, by connecting
+together cascades of processes and looking for a kind of prefixed
+notation language for connecting processes together, and failing
+because...  it's very easy to say "cat into grep into...  or who into
+cat into grep, and so on.  It was very easy to say that, and it was
+clear from the start, that that was something you'd like to say.
+But, there are always side parameters that these commands have.
+They don't just have input and output arguments, but they have the
+options.  And syntactically, it was not clear how to stick the
+options into this chain of things written in prefix notation, "the
+cat of grep of who?"
+
+Syntactic binders...  didn't see how to do it.   So, I had these very
+pretty programs written on the blackboard in a language that wasn't
+strong enough to cope with reality.  So, we didn't actually do it.
+Nevertheless,  I tried to get, who was it...?   somebody was playing
+with...   was getting into the I/O system of the GE635 that the comp
+center had.  We got that in anticipation of replacing it with the
+645 the minute MULTICS was working.  I asked them, could you make...
+I've got this wonderful I/O system...  where you can...   relatively
+device independent.  By and large, you wrote the same way on tapes,
+as on disks, as on printers...   in fact, that was true back in ESYS-
+3, the operating system that was built here for the 7090.  Largely,
+device independent I/O calls, like many other operating systems.
+So, that device independence was something that was around here for
+a long time.   It was clearly a beautiful mental model, this idea
+that the output from one process would just feed in as input to
+another. There was syntactic difficulty in talking about that mental
+model and I have a co-routine paper written in 1968 that was never,
+never printed, because, it was always a little too ugly, struggling
+with syntax.
+
+MSM:   I understand that one time you were thinking of an infix notation.
+        According to Ritchie's article, you were going to use your pipe...
+        we see these piping  as form of operator, linking two arguments, it
+        would be an infix notation.
+
+McIlroy:  Yes, yes. Well, we finally...   or a filter, a whole filter process
+was going to be an operator between two arguments...   and I...   over a
+period from 1970 til '72,  I would, from time to time, say how about
+making something like this...   and I would put up another proposal,
+another proposal, another proposal.  Then one day I came up with a
+syntax for the shell, that went along with the piping and Ken said,
+"I'm gonna do it."  He was tired of hearing all this stuff...   and
+that was certainly what makes it...   that...   you read about it
+several times I'm sure.  That was absolutely a fabulous day, the
+next day too.  "I'm gonna do it."  He didn't do exactly what I had
+proposed for the pipe system call.  He invented a slightly better
+one, that finally got changed once more to what we have today.  He
+did use my clumsy syntax and we simply this is passing it through...
+this is going to be another process.  He put pipes into UNIX.  He
+put this notation into the shell, all in one night.  The next
+morning we had this... people came in, people came in...   Oh, and he
+also changed a lot of...   most of the programs up until that time,
+couldn't take standard input.  Because, there wasn't the real need.
+They had file arguments.  Grep had a file argument, Cat had a file
+argument.  Thompson saw that that wasn't going to fit into this
+scheme of things, and he went in and changed all those programs in
+the same night.  I don't know how.   In the next morning we had this
+orgy of  "one liners."  Everybody had one liner.  Look at this, look
+at that.
+
+Nroff had a program called OV, Overlay.  It was to make multi-column
+output.  What you did was (writing on blackboard), out of  nroff,
+you produced a series of pages like this.  One page had stuff over
+here.  The next page had stuff over here and then OV would OR these
+two pages together.  Then it was into nroff, into OV, into OV, into
+the printer.  Four column output.  All that happened.   However...
+and if you go back look at the UNIX manual we wrote about this,
+discussion of how to use pipes in the shell goes on for a whole
+page.  It clearly had not yet been internalized.  Because, now... Is
+this much in the shell manual that describes what pipes are all
+about?
+
+One of them had to explain the syntax.  How you recognize which
+"greater than" is to the file.  And you also had "less than."  Which
+were really funny.  Less than a process.
+
+When Thompson was to give a talk on UNIX at a meeting in London.  We
+all said, what you really want is function decatenation, and we
+would write informally a little function decatenation symbol.
+
+MSM:   Yeah.
+
+McIlroy:  To prepare this talk.  Thompson said, "Let's take it simple one,
+        and took that one, and distinguished it from the "greater than" for
+        files, and then he could give a respectable talk.  I can remember
+        giving a talk at WG2.3, just two weeks after pipes were up, and
+        apologetically talking about this.  Folks are not reticent with
+        their criticism of 2.3.   They said that's ridiculous, "you gotta
+        have better intake," and the better intake did come a few months
+        later.
+
+MSM:   This is my get that,  because I haven't got a video camera on this.
+
+McIlroy:  I think that notation is somewhere in Dennis' paper.
+
+MSM:   It's in Dennis' paper..   What's not in Dennis' paper is the story
+        about the meeting of Ken (Thompson) and you.
+
+McIlroy: Cleaning up of something so you can talk about it is really quite
+        difficult.  Every time a manual, another edition of a manual  would
+        be made, there would be a flurry of activity.  When you wrote down
+        the uglies, we'd say;  "We can't put this in print."  Take features
+        out, or put features in, in order to make them easier to talk about.
+         The virtue of being in a research center...   you don't have to keep
+        any old software running.
+
+MSM:   Incompatibility is a human function?
+
+McIlroy:  Right.  Incompatibility is just a terrible burden born by IBM and
+        Bell Labs selling facility.  We're trying make production.  They
+        have users who have code out there that works and probably nobody
+        even who knows how to repair the code if any syntax or semantics are
+        changed.  So everything is competing...  the burden of history is with
+        them.
+
+MSM:   I was talking with...  when I was working with Charlie Stenard down in
+        Holmdel, we came up to see Carolyn Childs.  I think it is.  We were
+        talking to her about the problem of maintenance of software, and the
+        problems of trying maintaining it when you don't have documentation.
+          So, what kind of documentation would you like most of all?  She
+        said, "We would like some record of the decisions... of the things you
+        didn't do."  "The decisions you made not to do something. Because...
+
+
+[END OF SIDE A]
+
+MSM:   (It was a version of SREM -- not clear)...which is now called RDD 100,
+         says that one of the values of that way of designing is that you
+        can keep a record of your previous designs.  And, in form of version
+        control,  go back and just archive that.  You can always go back and
+        see why it was you didn't do something.  Because, you got this
+        problem here and this problem there.
+
+McIlroy:  That kind of stuff disappears, when the personnel...   Well, in
+        fact, it even disappears out of your own mind after three years.
+        Somebody wrote me mail the other night, saying, "Why is such and
+        such an option in diff?"  I knew I put it in.  And, as far as I knew
+        it had no use.  (Laughter)  It was twenty four hours, before I
+        realized it was special feature in there, just for the special
+        benefit of one other program that used diff.   Perhaps, I should
+        have never perturbed diff.  I should have put this glue outside,
+        instead of in the program.
+
+MSM:   One of the lovely features of pipes is the way it reinforces the
+        notion of the tool box.
+
+McIlroy:  Not only reinforced, almost created.
+
+MSM:   Well, that was my question.  Was the notion of the tool there
+        before...  (interrupted)
+
+McIlroy:  No.
+
+MSM:   pipes...   or did pipes create it?
+
+McIlroy:  Pipes created it.
+
+MSM:   UNIX looked different after pipes.
+
+McIlroy:  Yes.  The philosophy that everybody started putting forth.  This
+        is the UNIX philosophy.  Write programs that do one thing and do it
+        well.  Write programs to work together.  Write programs that handle
+        text streams because, that is a universal interface.  All of those
+        ideas, which add up to the tool approach, might have been there in
+        some unformed way prior to pipes.  But, they really came in
+        afterwards.
+
+MSM:   Was this sort of your agenda?   Specifically, what does it have to
+        do with mass produced software?
+
+McIlroy:  Not much.  It's a completely different level than I had in mind.
+        It would nice if I could say it was.  (Laughter)  It's a
+        realization.  The answer is no.  I had mind that one was going to
+        build relatively small components.  Good sub-routine libraries, but
+        more tailorable than those that we knew from the past, that could be
+        combined into programs.  What has... the tool thing has turned out to
+        be actually successful.  People just think that way now.  Fast
+        providing programs, that work together.  And, you can say, if you if
+        stand back, it's the same idea.  But, it's at a very different
+        level.  A higher level than I had in mind.  Here, these programs
+        worked together and they could work together at a distance.  One day
+        they can write a file, and tomorrow they can be able to read the
+        file.  That wasn't what I had in mind with components.  I had in
+        mind, the car would not be very much use if its wheels were in
+        another county.  They were going to be an integral part of the car.
+        Tools take the car and split it apart, and let the wheels do their
+        thing and then let the engine do its thing and they don't have to do
+        them together.  But, they can do them together if you wish.
+
+MSM:   Yeah.  I take your point.  If I understand it correctly, and think
+        about it.  A macro based on a pipeline is a interesting thing to
+        have in your tool box. But, if you were going write a program, to do
+        it, you wouldn't just take the macro, you'd have to go and actually
+        write a different program.  It wouldn't be put together out of
+        components.   In that sense.
+
+McIlroy:  So, when I wrote this critique a year or two ago of Knuth's web
+demonstration. Joan Bentley got Knuth to demonstrate his web
+programming system.  Which is a beautiful idea.  You write a program
+in an order that fits the exposition of the program. rather than the
+order that fits the syntax of the programming language.  And then
+you have a processor which takes the program written in expository
+order and turns it into a Pascal program and files it.  The
+expository order not only contains program fragments, it contains
+lots of text right with it.
+
+The declarations are stuck in at the point were you need them,
+rather than up at the head of the block.  And then they're moved by
+the web processor to the right place to compile the run.  Really
+elegant, and he calls it, Knuth calls it literate programming.   And
+Bentley asked him to write a demonstration literate program for
+Bentley's' Programming Pearls column.  I wrote a critical report
+about Knuth's program.  It's a little unfair, because his program
+was written as illustration and technique and I, my report
+criticizes it on engineering grounds, that that was not the right
+way to write the program.  And one of the things I wrote about
+Knuth's program was, (greased) text that prints out a list of the
+distinct words in the text and word counts, sorted by word count.
+Its an easy problem.   And he wrote one monolithic program to do
+whole job and I said "Look, here's the way we do it in UNIX with
+canonical pipelines, and although I don't recommend it.  This is not
+what he was out to do.  I really think, he should have not put
+definition of what word is, into the program that builds tables.
+That these were completely unrelated things.
+
+Now, in 1968, I would have thought he was doing just right.  He was
+taking this sub-routine and that sub-routine, and putting them
+together in one program.  Now, I don't think that is just right.  I
+think that the right way to do that job is as we do in UNIX in
+several programs, in several stages.  Keeping their identity
+separate, except in cases where efficiency is of extreme importance.
+ You never put the parts into more intimate contact.  It's silly.
+Because, once you've got them there, it's hard to get them apart.
+You want to change from English to Norwegian, you have to go way to
+the heart of Knuth's program.  You really ought to be able to just
+change the pre-processors that recognize this is a different
+alphabet.
+
+MSM:   Going back to..
+
+McIlroy:  So, I learned a lot from Brian.  Who really is the guy, the
+        person who articulated the tools idea.  It seemed to be in the air,
+        but it was not an overt communicable design philosophy.  You
+        discovered it only by hanging around the UNIX room.  Brian, put it
+        out of the world.
+
+MSM:   Now, this is before or after piping?
+
+McIlroy:  After.
+
+MSM:   Your sense is that pipe (galvanize) was not true?   But, it was
+        there in embryo?
+
+McIlroy:  To some extent the shell...  The ease of writing a shell script in
+UNIX.  There had been something like that on CTSS before.  But, it
+wasn't easy.  You couldn't do more than six commands in it.  It had
+very curious limitations.  You could do six things, but not seven.
+Very ease of writing the shell script.  Tomorrow capturing...   having
+a machine govern or guide a set of processes, that yesterday were
+guided by humans, was certainly in Thompson's dream.  And he did a
+beautiful job of bringing it to reality.
+
+So, we were all ready.  Because it was so easy to compose processes
+with shell scripts.  We were already doing that.  But, when you have
+to decorate or invent the name of intermediate files and every area
+has to say put your file there.  And the next one say get your input
+from there.  The clarity of composition, of function which you
+perceived in your mind when you wrote the program, is lost in the
+program.  Whereas the piping symbol keeps it.  It's the old thing
+about,  notations are important.
+
+MSM:   I just got through beating somebody up about that.  I'm not going to
+        call on Newton. (Laughing)
+
+MSM:    Just the dangers of translating Newton's geometry into algebra and
+        what you want to understand as Newton's habits of thought.  He
+        thought in geometry.  He did not translate it from the functions.
+
+McIlroy:  He did not.
+
+MSM:   He never wrote that text in anything but geometrical form.
+
+McIlroy:  Did he discover the theorems, in geometrical form?  All of those
+        method of exhaustion arguments were. (Laugh)
+
+MSM:   No. Those are after the fact.  They're meant to give logical rigor
+        to what was a more intuitive form of ... Which is not classical
+        geometry.  It's an infinitesimallist geometry that was developed by
+        people like Karl (Jurding -- Not Clear) and others in 17th century.
+        I'll send you the article.
+
+McIlroy:  Yeah.  So, he really did it?
+
+MSM:   No, he did it geometrically.
+
+MSM:   Christian Huygens, among others, taught him how to do that.  Not...  I
+        mean, indirectly through his work.  But, it was common to think in
+        geometric terms.  Because, actually, you could see your parameters.
+        But, also, when you went to the continuous case, you would quite
+        often lose your parameters.  For example if you were... as he does in
+        first proposition, talking about Keplerian motion you have the body,
+        it's moving like that, here's your center force.  Now, imagine it
+        moving for a short period of time at uniform speed.  Now, give it a
+        push.  Then it will move like that.  Give it a push toward the
+        center, and it will move like that.  Well, these are impulses and
+        then he just goes to a continuous curve, by shortening the intervals
+        and increasing the number of pulses until you get to the continuous
+        curve.  The trouble is that geometrically, what you do is you lose
+        your geometric measure of  the velocity.
+
+McIlroy:  Yeah.
+
+MSM:   So, you have to relocate it.  Well it turns out that if you draw... if
+        you have an orbit with the center force here, and you want to know
+        what velocity  is here, you draw the tangent to the curve and draw a
+        perpendicular to that tangent and the velocity is inversely
+        proportional to that length.  And you prove it as a separate
+        theorem, to show that's the case.  And that is ...   (interrupted)
+
+McIlroy:  So, when you do the algebraic...  when you do the usual algebraic
+        derivation, and pulling a rabbit out of a hat.  They convert from r,
+        to 1 over r, and the equations become nice?  (laughter)  Are they
+        generated?   (laughter)
+
+ MSM:  It would be nice to say that they are a translation of that.  But
+        no, the beauty of Algebra is that you don't worry about
+        dimensionality. And you don't worry about losing terms.  Because,
+        ultimately you have a picture of an orbit here, which is a physical
+        object in space.  Well, there's no room in space of three dimensions
+        for things like velocity, acceleration, time...   so that any time
+        you draw them on a diagram, you're imposing another dimensionality.
+        And then you have to be able to work in several dimensions and are
+        not using it another way.  Whereas in the Calculus,  it's just a
+        question of how you write your terms and you can keep all your
+        dimensions in multidimensional space.
+
+McIlroy:  But there is this amazing transformation that turns the equations
+        of orbital motion.   If you use 1 over r, instead of r, as your
+        dependent variable, the equations are nice.
+
+MSM:   Yes. I've done the trick.  But, no.  That does not come from that.
+        Anyway, you're right, notation makes a difference.
+
+McIlroy:  The...   We talk about more elaborate...  So, pipes are there for
+        linear pipelines.  More elaborate arrangements, such as we talked
+        about in a language from NSA called POCAL.  A data processing
+        language,  this was an amazing language which data processing...
+        you...  often problem or solution is expressed with pictures of here's
+        the tape being carried here to there and it's being put onto cards,
+        and what you're seeing is a data flow diagram, and not a classical
+        program flow diagram.  They had the idea that the data flow diagram
+        was really the right way to express data processing, at a very fine
+        grain.  Even between two successive steps.  So, we would put
+        together a data processing application, as a whole bunch of little
+        things connected up with files.  Often fifty files.  And then their
+        compiler would optimize the files out of existence.  It's gotta be
+        biggest optimizing compiler (interrupted by laughter).  You know,
+        when you throw away a file pass,  that's really different from
+        saving an instruction which most optimizing compilers do.  A very
+        impressive optimizing compiler.  It would throw away as many files
+        as it could.  Even when there's loop structures, if it could, by
+        reading the code, determine that there would be a bounded feedback
+        cue,  then all you need to do is provide enough temporary storage to
+        handle the bounding cue, and...   furthermore, when there are  loop
+        structures, you can't do it with real live files.  Because, you have
+        to start reading the file...  real live tapes, which is what they had
+        at the time... because you have to start reading the tape while you're
+        still writing it. How did I get onto POCAL?  (laughter)  Oh, other
+        topologies of pipes.
+
+MSM:   Let me ask you about topologies and pipes that is mentioned, and
+        that's APL...   as a form of pipelining process.  Or, a language that
+        pipelines.
+
+McIlroy:  APL?  Yes. It's the beautiful prefix...  this composition of
+        functions.  Certainly APL was one of the things in mind when I was
+        doing these blackboard exercises.
+
+MSM:   That was my question.  Did you have APL in mind?
+
+McIlroy:  That was certainly in mind and APL just did not allow us to have
+        operators with variance.  Such as only options, that our utilities
+        had.  As long as you take the good clean operators,  it's a
+        beautiful notation.  It only took us one willingness to throw in a
+        new separator, the vertical bar and we were able to handle that, but
+         it took us about four years, from the time we started talking about
+        it,  to the time it happened.
+
+MSM:   Let me  ask you what you were thinking about in another sense, and
+that is related to something we were talking about when I had lunch
+here the last time.  Which to the extent to which  UNIX is the
+instantiation of...  really a theory of computing...  of ideas in
+computer science.  YACC, the instantiation of a theory of (cursors --
+not clear), blanks, of finite automata and so on.
+
+To what extent can we take something like pipeline?  You could treat
+pipes as they appear in any instantiation as the instantiation of a
+mathematical idea and what was the relationship over these early
+years between theoretical comp sci.  What were you thinking about?
+Were you thinking about how to get an operating system working...  a
+computing system working...  or were there a set of ideas that you
+people were pursuing...   that you were using this project to test
+out?
+
+McIlroy:  Well, there were two.  I would say that most of us, the theory
+        was there on the side and we were certainly alert to it.  I went to
+        Oxford for a year, solely so I could imbibe the notation semantics
+        from the source.
+
+MSM:   I lived with him in the same program for two years and didn't
+        realize he was the source. (Laughing)  Daniel was part of the
+        history of science program at Princeton for two years.
+
+McIlroy:  He had been at Oxford just the year before I was.  But Strachey
+        was sort of the catalyst for the whole thing.  Although Dana was the
+        one who made it mathematically respectable.
+
+MSM:   You had gone to work with Strachey?
+
+McIlroy:  I went to work with Strachey.   Most of us are more computer
+        types than mathematicians.  Even though we write papers occasionally
+        with mathematical...    With exception of the language theory.  I had
+        in my department, system builders like Thompson, and theoretical
+        computer scientists like Aho.   And Aho plowed the fields of
+        language theory from '60...  He joined us in around '66..  Just around
+        the same time as Thompson.   Handing out paper after paper of
+        slightly different models of parsing, and automata.   And that was
+        supported with the overt idea that one day out of it, this really
+        would feed computing practice.  Even though it was not.  In the same
+        way, we have we have today folks working on denotational semantics.
+         Which seems to be a longer term.  But, I have the same belief that
+        semantics,  is going to be change practice, and ML is the current
+        embodiment of that.  This long line of playing with the mathematical
+        ideas.  Which happened all over the country.  It wasn't just here.
+        Finally led to Knuth's one paper on LR parsing.  Which got
+        repatriated back here, and one day Steve Johnson went in to Al Aho,
+        although I wasn't present, I'm attributing something here...   and
+        said, "I want to make your stuff work".  We had compiler compilers
+        before TMG.  And in some ways, TMG was nicer than YACC.  Not
+        specification of grammar, but it actually helps you do the
+        translation.  YACC only helps you do the parsing,  it's up to you to
+        do the translation after that.
+
+When the sound theory of parsing went into a compiler writing system, it
+        became available to the masses.  It.. .  There is a case where,
+        there's absolutely no doubt that, overtly, theory fed into what we
+        do.   There are lots of other places where theory is an inspiration,
+        or it's in the back of your mind.  Very few of them are...   well the
+        regular expression business also came out of automata theory.
+        Thompson wrote one famous recognizer, which is the one that's still
+        in GREP.  And Al Aho decided that he was going to take that part of
+        automata theory, he built EGREP.  Which determine...  you have the
+        deterministic one in EGREP, and the nondeterministic one in GREP.
+        I think really that YACC and GREP are what people hold up the "real
+        tools" and...   they are the ones where we find a strong theoretical
+        underpinning.  troff has none.   And of course it's used, and
+        indispensable.  Nobody holds up it as a programming gem. (Laughing)
+
+
+
+MSM:   When I used YACC, in the compiler course that Sethi taught us at
+        Princeton, one liked to go in and actually look at the statement.
+        And in my urgency, I have no desire to look into MS...  (Laughing)
+        ...and see what those macros are. (Laughing)
+
+McIlroy:  ... if you do look at it once,  you recoil in just absolute terror.
+         You know, there's no model there.  It's true of all its
+        competitors, too.
+
+MSM:   Things like TECC, are slightly more powerful...
+
+McIlroy:  ...but, fundamentally they are the same thing.  You still don't
+        have a model of what typesetting is about.  But, one of the
+        difficulties is it's partly esthetic.  You cannot bend page to meet
+        some theoretical requirements.  Nobody cares what you're compiler
+        looks like on the inside, so you can bend it to agree with a
+        automata theory.  troff has to feed into a different market...
+
+MSM:   Yea, and you're also, it seems to me with tools like YACC,
+        accomplishing more than just getting a compiler together, you're
+        getting  some assurance about  ambiguity...  If it says that there's
+        an equivocation in it, then there certainly is.  But, if whether
+        you're really healthy if you get a clean bill of health...  but
+        still, it's comforting to know that you've gone through there and
+        you don't have any ambiguities in it.
+
+McIlroy:  This is the nice about programming in a language like ML.  Which
+        we have not...  I have not yet been able to say all right I'm going
+        to abandon C, I'm going to  write in ML.  I think I ought to.  But,
+        I will have burned my bridges.  I will no longer be able to work
+        with...  I will have left all these old parts...  that I could use.
+        Starting from scratch.  But, there's a language which is built on
+        mathematical ideas of algebra.  Category theory...  how imposition of
+        functions and higher level functions in that language...  Functions
+        that work on functions...  Functions are return functions... Come
+        straight out of modern algebra.
+
+MSM:   I haven't seen this.  Is there text now available?
+
+McIlroy:  There is a book available.  It's a job jointly done, by Edinburgh
+        who are in the center and  Dave McQueen here...   and now there's also
+        a big outpost of it at Cornell.  I think it spread... In England where
+        they like their computer science to be more scientific, I think it's
+        spreading quite well.
+
+MSM:   The Algebraic reminds me of sort of the use of  set theoretic
+        specification through to Z and... at Oxford.  When I was looking at
+        it, it seemed to be more mathematical than would suit the American
+        taste, or at least homegrown taste.   So, I've ordered it.
+
+MSM:   ML, I'll take a look at it.  And you say there is a book out on it?
+
+McIlroy:  Yeah.
+
+MSM:   One of my interests, as an historian in mathematics, is the effort
+        to mathematize computing.  One thinks of the computer as a
+        mathematical  instrument, and of course it is.  The difficulty of
+        getting it and capturing it in mathematical forms, especially
+        dynamic behavior of programs, makes an interesting chapter in
+        efforts at mathematization.  ...and what it would mean to mathematize
+        it.
+
+McIlroy:  It's interesting that computers are feeding back  into the
+        foundations of mathematics.  I think computing is the engine that's
+        driving type theory now.
+
+MSM:   Type theory through mathematical logic.
+
+McIlroy:  Yeah, the logicians are now getting their inspiration from the
+        computing side.
+
+MSM:   Good, I'm glad there's a justification for it.  Because, I must say
+        when I first encountered it, I thought...  the problem can't be that
+        bad, that we have to go through this.
+
+McIlroy:  But, sound, type theory, is really at the heart of design of a
+        language like ML.   We often talk strongly typed languages, but the
+        idea doesn't really mean much until you get to second order
+        functions and polymorphic functions.  The general identity function
+        in that identity can be applied to anything.   It just produces....
