@@ -3,21 +3,29 @@
 'use strict';
 
 let fs = require('fs')
+let Transform = require("stream").Transform
+let util = require("util")
 
-let txt2md = function(input, names) {
-    let header = true
-    let names_re = new RegExp(`^ *(${names.join('|')}): `, 'gi')
-    input = input.split("\n").map( (line) => {
-	if (header && !line.match(/^\s*$/)) {
-	    header = false
-	    return `# ${line}`
-	}
+let split = require('split')
 
-	return line.replace(names_re, "<b>$1</b>: ")
-    }).join("\n")
-
-    return input
+// transform stream; assumes data is already splitted on newlines
+let Txt2md = function(names) {
+    Transform.call(this)
+    this.header = true
+    this.names_re = new RegExp(`^ *(${names.join('|')}): `, 'gi')
 }
+util.inherits(Txt2md, Transform)
+
+Txt2md.prototype._transform = function(line, dummy, next) {
+    if (this.header && !line.toString().match(/^\s*$/)) {
+	this.header = false
+	this.push(`# ${line}\n`)
+    } else {
+	this.push(line.toString().replace(this.names_re, "<b>$1</b>: ") + "\n")
+    }
+    next()
+}
+
 
 let names = process.argv.slice(2)
 if (names.length === 0) {
@@ -25,5 +33,7 @@ if (names.length === 0) {
     process.exit(1)
 }
 
-let src = fs.readFileSync('/dev/stdin').toString()
-process.stdout.write(txt2md(src, names))
+process.stdin
+    .pipe(split())
+    .pipe(new Txt2md(names))
+    .pipe(process.stdout)
