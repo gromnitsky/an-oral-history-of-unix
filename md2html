@@ -21,7 +21,7 @@ let date_parse = function(input) {
 let date2html = function(input) {
     let date = date_parse(input)
     return "<p class='my-time'>" +
-	(date ? `<time datetime='${date.format("YYYY-MM-DD")}'>${date.format("dddd, MMMM Do YYYY")}</time></p>\n\n` : "<i>Date unknown</i>") +
+	(date ? `<time datetime='${date.format("YYYY-MM-DD")}'>${date.format("dddd, MMMM Do YYYY")}</time></p>\n\n` : "<i>The interview date is unknown</i>") +
 	"</p>\n\n"
 }
 
