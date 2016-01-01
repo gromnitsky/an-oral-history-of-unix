@@ -1,5 +1,5 @@
 # Usage:
-# $ make -f ../an-oral-history-of-unix/main.mk
+# $ make -f ../an-oral-history-of-unix/main.mk compile
 
 PHONY: help
 help:
@@ -91,3 +91,7 @@ book.pdf: book.epub
 
 .PHONY: compile
 compile: book.mobi book.pdf
+
+.PHONY: upload
+upload: $(html.dest) book.epub book.mobi book.pdf
+	rsync -avPL --delete -e ssh $^ gromnitsky@web.sourceforge.net:/home/user-web/gromnitsky/htdocs/lit/an-oral-history-of-unix/
